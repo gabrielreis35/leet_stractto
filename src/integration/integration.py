@@ -4,6 +4,7 @@ import json
 
 from models.requests.accounts import AccountsRequest
 from models.requests.fields import FieldsRequest
+from models.requests.platforms import PlatformsRequest
 
 class Integration():
     def __init__(self):
@@ -19,7 +20,7 @@ class Integration():
         
         data = requests.get(url=url_request, headers=header)
         
-        platform = json.loads(data.content)
+        platform = PlatformsRequest.model_validate_json(data.content)
         
         return platform 
         

@@ -32,6 +32,19 @@ def get_plataformas(plataforma: str):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
+@routes.get("/{plataforme}/resumo", status_code=status.HTTP_200_OK)
+def get_resume_platforms(plataforma: str):
+    return "Teste"
+
+@routes.get("/geral", status_code=status.HTTP_200_OK)
+def get_general_report():
+    return "Teste"
+
+
+@routes.get("/geral/resumo", status_code=status.HTTP_200_OK)
+def get_resume_general_report():
+    return "Teste"
+
 app.include_router(routes)
 
 

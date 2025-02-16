@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from models.requests.pagination import Pagination
 
 class Field(BaseModel):
@@ -8,4 +8,4 @@ class Field(BaseModel):
     
 class FieldsRequest(BaseModel):
     fields: List[Field]
-    pagination: Pagination
+    pagination: Optional[Pagination] = None

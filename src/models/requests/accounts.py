@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from models.requests.pagination import Pagination
 
 class Account(BaseModel):
@@ -9,4 +9,4 @@ class Account(BaseModel):
     
 class AccountsRequest(BaseModel):
     accounts: List[Account]
-    pagination: Pagination
+    pagination: Optional[Pagination] = None
