@@ -21,6 +21,23 @@ def get_home():
     
     return ret
 
+@routes.get("/geral", status_code=status.HTTP_200_OK)
+def get_general_report():
+    try:
+        data = service.get_general_report()
+        
+        ret = JSONResponse(content=data)
+        
+        return ret
+    except Exception as e:
+        return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    
+    
+
+@routes.get("/geral/resumo", status_code=status.HTTP_200_OK)
+def get_resume_general_report():
+    return "Teste"
+
 @routes.get("/{plataforma}", status_code=status.HTTP_200_OK)
 def get_plataformas(plataforma: str):
     try:
@@ -36,14 +53,7 @@ def get_plataformas(plataforma: str):
 def get_resume_platforms(plataforma: str):
     return "Teste"
 
-@routes.get("/geral", status_code=status.HTTP_200_OK)
-def get_general_report():
-    return "Teste"
 
-
-@routes.get("/geral/resumo", status_code=status.HTTP_200_OK)
-def get_resume_general_report():
-    return "Teste"
 
 app.include_router(routes)
 

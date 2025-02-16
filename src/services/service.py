@@ -25,6 +25,8 @@ class Service:
         return all_accounts
     
     def get_fields(self, platform:str):
+        page = 1
+        total_pages = 1
         all_fields: list[Field] = []
         str_fields = ""
         while page <= total_pages:
@@ -68,16 +70,37 @@ class Service:
     def get_resume_report_platform(self, platform: str):
         ...
     
-    def get_general_report(self, page: int = 1, offset: int = 1):
-        all_accounts: list[Account]
-        all_fields: list[Field]
-        list_platforms: list[Platform] = Integration.get_platforms()
+    def get_general_report(self):
+        all_accounts: list[Account] = []
+        all_fields: list[Field] = []
+        all_insights = []
+        total_pages = 1
+        page = 1
+        list_platforms: list[Platform] = requisition.get_platforms()
         
-        for platform in list_platforms:
-            all_accounts.append(self.get_accounts(platform))
-            all_fields.append(self.get_fields(platform))
+        for platform in list_platforms.platforms:
+            print(platform)
+            list_account = self.get_accounts(platform.value)
+            all_accounts.append(list_account.accounts)
             
-        # for account in all_accounts:
-        #     req_insight = 
-        
-        return 0
+            fields_platform, str_fields = self.get_fields(platform.value)
+            
+            all_fields.append(fields_platform)
+            
+            
+        for account in all_accounts:
+            for platform in list_platforms:
+                req_insight = requisition.get_insights(platform.value, account.id, account.token, str_fields)
+
+                if "insights" in req_insight and req_insight["insights"]:
+                    insight = req_insight["insights"][0]  # Pega o primeiro insight
+
+                    save_insight = {}
+
+                    # Adiciona todos os campos disponíveis ao insight
+                    for field in all_fields:
+                        save_insight[field.value] = insight.get(field.value, "")
+
+                    all_insights.append(save_insight)  # Salva o insight na lista
+
+        return all_insights
