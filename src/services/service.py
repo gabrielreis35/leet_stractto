@@ -1,6 +1,7 @@
 from integration.integration import Integration
 from models.requests.accounts import Account
 from models.requests.fields import Field
+from models.requests.platforms import Platform
 import json
 
 requisition = Integration()
@@ -64,6 +65,19 @@ class Service:
                     
         return all_insights
     
-    def get_general_report(self, page: int, offset: int):
-        
+    def get_resume_report_platform(self, platform: str):
         ...
+    
+    def get_general_report(self, page: int = 1, offset: int = 1):
+        all_accounts: list[Account]
+        all_fields: list[Field]
+        list_platforms: list[Platform] = Integration.get_platforms()
+        
+        for platform in list_platforms:
+            all_accounts.append(self.get_accounts(platform))
+            all_fields.append(self.get_fields(platform))
+            
+        # for account in all_accounts:
+        #     req_insight = 
+        
+        return 0
